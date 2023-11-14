@@ -10,6 +10,19 @@ export class PhoneBook extends Component {
     name: '',
     number: '',
   };
+  componentDidMount() {
+    const savedContacts = localStorage.getItem('contacts');
+    if (savedContacts !== null) {
+      this.setState({
+        contacts: JSON.parse(savedContacts),
+      });
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
   handleChangeName = event => {
     const value = event.target.value;
     this.setState({ name: value });
